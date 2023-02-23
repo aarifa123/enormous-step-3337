@@ -1,8 +1,34 @@
 import React from 'react'
 import styled from 'styled-components'
-const Container=styled.div``
+import {categoriesdata} from "../data"
+import Categoryitem from './categorieitem'
+
+
+const Container=styled.div`
+display:flex;
+padding:20px
+
+
+
+`
+
+
+
+
+
+
 export default function Categories() {
   return (
-    <Container>Categories</Container>
+    <Container>
+
+
+{categoriesdata.map(item=>(
+    <Categoryitem item={item} key={item.id}/>
+))}
+
+
+
+
+    </Container>
   )
 }
