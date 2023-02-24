@@ -22,26 +22,18 @@ import {
     ChevronDownIcon,
     ChevronRightIcon,
   } from '@chakra-ui/icons';
-  import { FaFacebook, FaInstagram } from 'react-icons/fa';
+ 
+  
+  import CartButton from "./Cart"
+
+
 
   export default function WithSubnavigation() {
     const { isOpen, onToggle } = useDisclosure();
   
     return (
       <Box>
-        <nav class="nav" >
-  
-  <a class="nav-link" href="https://www.facebook.com/koovs" target="_blank" style={{color:"black" ,fontSize:"12px", display:"flex",margin:"10px",justifyContent:"space-around",marginTop:"0px",marginBottom:"0px"}} ><FaFacebook color="black" size={28} />  <p >1.8M Followers</p>
-
-
-</a>
-  <a class="nav-link" href="https://www.instagram.com/koovsfashion/" target="_blank" style={{color:"black" ,fontSize:"12px",display:"flex",margin:"10px",justifyContent:"space-around",marginTop:"0px",marginBottom:"0px"}}><FaInstagram color="black" size={28}  />  682k Followers</a>
-  <p style={{marginLeft:"200px", display:"flex",justifyContent:"center",alignItems:"center"}}>Open doors to a world of fashion | Young and fresh</p>
-  {/* <select style={{display:"flex",border:"2px solid green",marginLeft:"570px"}}>
-    <option>English</option>
-  </select> */}
-</nav>
-<hr></hr>
+       
         <Flex
           bg={useColorModeValue('white', 'gray.800')}
           color={useColorModeValue('gray.600', 'white')}
@@ -66,16 +58,24 @@ import {
             />
           </Flex>
           <Flex flex={{ base: 1 }} justify={{ base: 'center', md: 'start' }}>
-            <Text
+          <form className="d-flex" role="search">
+        <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search"/>
+        <button className="btn btn-outline-success" type="submit">Search</button>
+      </form>
+{/* the categery part is here  */}
+            {/* <Text
               textAlign={useBreakpointValue({ base: 'center', md: 'left' })}
               fontFamily={'heading'}
               color={useColorModeValue('gray.800', 'white')}>
-              <Image src="./images/logo.png" width="200px" height={10}/>
+              
             </Text>
   
             <Flex display={{ base: 'none', md: 'flex' }} ml={10}>
               <DesktopNav />
-            </Flex>
+            </Flex> */}
+
+<Image src="./images/logo.png" width="200px" height={10}/>
+
           </Flex>
   
           <Stack
@@ -83,28 +83,44 @@ import {
             justify={'flex-end'}
             direction={'row'}
             spacing={6}>
+<CartButton itemCount={4} />
+
             <Button
               as={'a'}
+              display={{ base: 'none', md: 'inline-flex' }}
               fontSize={'sm'}
-              fontWeight={400}
-              variant={'link'}
-              href={"#"}>
-            sinin
+              fontWeight={600}
+              
+              bg={'none'}
+              color={"black"}
+              href={"#"}
+              _hover={{
+                bg: 'gray',
+              }}>
+            signin
             </Button>
             <Button
               as={'a'}
               display={{ base: 'none', md: 'inline-flex' }}
               fontSize={'sm'}
               fontWeight={600}
-              color={'white'}
-              bg={'pink.400'}
+              
+              bg={'none'}
+              color={"black"}
               href={"#"}
               _hover={{
-                bg: 'pink.300',
+                bg: 'gray',
               }}>
             signup
             </Button>
+            
+
+
+
+
+            
           </Stack>
+         
         </Flex>
   
         <Collapse in={isOpen} animateOpacity>
@@ -120,7 +136,7 @@ import {
     const popoverContentBgColor = useColorModeValue('white', 'gray.800');
   
     return (
-      <Stack direction={'row'} spacing={4}>
+      <Stack direction={'row'} spacing={2}>
         {NAV_ITEMS.map((navItem) => (
           <Box key={navItem.label}>
             <Popover trigger={'hover'} placement={'bottom-start'}>
