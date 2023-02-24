@@ -58,7 +58,7 @@ export default function LargeWithAppLinksAndSocial() {
 
 
     <div style={{borderBottom:"2px solid gray"}}>
-        <Upfooter/>
+        
     <Box
       bg={useColorModeValue('gray.50', 'gray.900')}
       color={useColorModeValue('gray.700', 'gray.200')}>
