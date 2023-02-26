@@ -1,10 +1,11 @@
 import React from 'react'
+import { useLocation } from 'react-router-dom'
 import styled from 'styled-components'
 import LargeWithAppLinksAndSocial from '../components/Footer'
 import Navbar from "../components/Navbar"
 import Products from '../components/Products'
 
-
+import { useState } from 'react'
 const Container=styled.div`
 
 `
@@ -35,27 +36,49 @@ margin-right:20px;
 `
 const Option=styled.option``
 export default function Productlist() {
+
+const location=useLocation()
+const cat=location.pathname.split("/")[2]
+const [filter, setFilter] = useState({})
+const [sort, setSort] = useState("BestSelling")
+const handleFilters=(e)=>{
+const value=e.target.value;
+setFilter({
+...filter,
+[e.target.name]:value
+
+
+})
+
+}
+
+
+
   return (
     <Container>
         
   <Navbar />
-  <Title>Dresses</Title>
+  <Title>{cat}</Title>
 <FilterContainer>
 <Filter><Filtertext/>Filter 
-<Select>
-    <Option disabled selected>Color</Option>
-    <Option>White</Option>
-    <Option>Black</Option>
-    <Option>Red</Option>
-    <Option>Blue</Option>
-    <Option>Gray</Option>
+<Select name="color" onChange={handleFilters}>
+    <Option disabled >Color</Option>
+    <Option>white</Option>
+    <Option>black</Option>
+    <Option>red</Option>
+    <Option>blue</Option>
+    <Option>green</Option>
+    <Option>multicolor</Option>
+
+
 
 </Select>
 
-<Select>
-    <Option disabled selected>Size</Option>
+<Select name="size" onChange={handleFilters}>
+    <Option disabled >Size</Option>
     <Option>S</Option>
     <Option>L</Option>
+    <Option>M</Option>
     <Option>Xl</Option>
     <Option>XXL</Option>
     <Option>XXXl</Option>
@@ -64,12 +87,12 @@ export default function Productlist() {
 </Filter>
 
 <Filter>Sort   
-<Select>
-    <Option disabled selected>Best Selling</Option>
-    <Option>Price, low to high</Option>
-    <Option>Price, high to low</Option>
-    <Option>Alphabetically, A-Z</Option>
-    <Option>Alphabetically, Z-AL</Option>
+<Select onChange={e=>setSort(e.target.value)}>
+    <Option value="newest">Newest</Option>
+    <Option  value="asc">Price, low to high</Option>
+    <Option value="desc">Price, high to low</Option>
+    <Option value="asc2" >Alphabetically, A-Z</Option>
+    <Option value="desc2">Alphabetically, Z-A</Option>
     <Option>Featured</Option>
 
 </Select>
@@ -81,7 +104,7 @@ export default function Productlist() {
 
 </FilterContainer>
 
-<Products/>
+<Products cat={cat} filter={filter} sort={sort}/>
 
 
 <LargeWithAppLinksAndSocial/>

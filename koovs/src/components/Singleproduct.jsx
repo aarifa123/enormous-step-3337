@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from "styled-components"
 import { ShoppingBagOutlined, FavoriteBorderOutlined, SearchOutlined } from '@mui/icons-material';
+import { Link } from 'react-router-dom';
 
 const Info=styled.div`
 opacity:0;
@@ -46,7 +47,7 @@ position:absolute;
 `
 const Image=styled.img`
 height:100%;
-width:100%;
+width:500px;
 z-index:2;
 `
 
@@ -83,8 +84,10 @@ export default function Singleproduct({item}) {
         <FavoriteBorderOutlined/>
     </Icon>
     <Icon>
-
-        <SearchOutlined/>
+<Link to={`/product/${item._id}`} >
+<SearchOutlined/>
+</Link>
+        
     </Icon>
 </Info>
 
