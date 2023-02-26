@@ -23,10 +23,21 @@ import {
     ChevronRightIcon,
   } from '@chakra-ui/icons';
  
-  
-  import CartButton from "./Cart"
+  import styled from 'styled-components';
+  import CartButton from "./Cartbutton"
+  import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
+const Logo=styled.h1`
 
+font-size:50px;
+font-weight:bolder;
+color:black;
+margin-left:400px;
+// border:2px solid red;
+// display:flex;
+// justify-content:center;
+// align-items:center
 
+`
 
   export default function WithSubnavigation() {
     const { isOpen, onToggle } = useDisclosure();
@@ -58,24 +69,41 @@ import {
             />
           </Flex>
           <Flex flex={{ base: 1 }} justify={{ base: 'center', md: 'start' }}>
-          <form className="d-flex" role="search">
-        <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search"/>
-        <button className="btn btn-outline-success" type="submit">Search</button>
-      </form>
+
+            {/* searchbar */}
+            {/* <div style={{border:"2px solid gray"}}> */}
+            <form className="d-flex" role="search" >
+        
+        
+        <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" style={{border:"2px solid gray",focus:"none" 
+ 
+}} />  
+<button  type="submit" ><SearchOutlinedIcon /></button>
+        {/* <button className="btn btn-outline-success" type="submit">Search</button> */}
+       
+    </form>
+
+
+
+
+      
+            {/* </div> */}
+          
 {/* the categery part is here  */}
             {/* <Text
               textAlign={useBreakpointValue({ base: 'center', md: 'left' })}
               fontFamily={'heading'}
               color={useColorModeValue('gray.800', 'white')}>
               
-            </Text>
+            </Text> */}
   
-            <Flex display={{ base: 'none', md: 'flex' }} ml={10}>
+            {/* <Flex display={{ base: 'none', md: 'flex' }} ml={10}>
               <DesktopNav />
-            </Flex> */}
+            </Flex>  */}
 
-<Image src="./images/logo.png" width="200px" height={10}/>
+{/* <Image src="./images/koovs.png" width="200px" height={10} marginLeft="400px" /> */}
 
+<Logo  >KOOVS</Logo>
           </Flex>
   
           <Stack
@@ -83,7 +111,7 @@ import {
             justify={'flex-end'}
             direction={'row'}
             spacing={6}>
-<CartButton itemCount={4} />
+
 
             <Button
               as={'a'}
@@ -114,7 +142,7 @@ import {
             signup
             </Button>
             
-
+            <CartButton itemCount={4} />
 
 
 
@@ -123,7 +151,7 @@ import {
          
         </Flex>
   
-        <Collapse in={isOpen} animateOpacity>
+    <Collapse in={isOpen} animateOpacity>
           <MobileNav />
         </Collapse>
       </Box>
