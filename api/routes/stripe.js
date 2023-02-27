@@ -13,7 +13,7 @@ stripe.charges.create({
 
     source:req.body.token.tokenId,
     amount:req.body.amount,
-    currency:"inr",
+    currency:"usd",
 },(stripeErr,stripeRes)=>{
 
 

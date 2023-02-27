@@ -22,9 +22,12 @@ import {
     ChevronDownIcon,
     ChevronRightIcon,
   } from '@chakra-ui/icons';
- 
+  import {useSelector} from "react-redux"
   import styled from 'styled-components';
   import CartButton from "./Cartbutton"
+  import { Link as NavLink } from 'react-router-dom';
+  // Use NavLink instead of Link throughout the file
+  
   import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
 const Logo=styled.h1`
 
@@ -40,6 +43,7 @@ margin-left:400px;
 `
 
   export default function WithSubnavigation() {
+    const quantity= useSelector((state) => state.cart.quantity);
     const { isOpen, onToggle } = useDisclosure();
   
     return (
@@ -102,8 +106,10 @@ margin-left:400px;
             </Flex>  */}
 
 {/* <Image src="./images/koovs.png" width="200px" height={10} marginLeft="400px" /> */}
-
+<NavLink to="/">
 <Logo  >KOOVS</Logo>
+</NavLink>
+
           </Flex>
   
           <Stack
@@ -112,8 +118,9 @@ margin-left:400px;
             direction={'row'}
             spacing={6}>
 
+<NavLink to="/login">
 
-            <Button
+<Button
               as={'a'}
               display={{ base: 'none', md: 'inline-flex' }}
               fontSize={'sm'}
@@ -127,6 +134,9 @@ margin-left:400px;
               }}>
             signin
             </Button>
+</NavLink>
+            
+            <NavLink to="/signup">
             <Button
               as={'a'}
               display={{ base: 'none', md: 'inline-flex' }}
@@ -141,8 +151,14 @@ margin-left:400px;
               }}>
             signup
             </Button>
+
+            </NavLink>
             
-            <CartButton itemCount={4} />
+            <NavLink to="/cart">
+              <CartButton itemCount={quantity} />
+              </NavLink>
+          
+            
 
 
 
@@ -206,6 +222,9 @@ margin-left:400px;
   };
   
   const DesktopSubNav = ({ label, href, subLabel }) => {
+
+
+  // console.log(quantity,"i am quantit")
     return (
       <Link
         href={href}

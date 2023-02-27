@@ -92,7 +92,7 @@ export const popularProducts=[
 {
     id:10,
     img:"https://cdn.shopify.com/s/files/1/0677/1464/6315/products/KOOVS_20OCT22-1237.jpg?v=1677061816"
-},
+}
 
 
 ]

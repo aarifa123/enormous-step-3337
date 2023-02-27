@@ -38,20 +38,21 @@ const Option=styled.option``
 export default function Productlist() {
 
 const location=useLocation()
+console.log(location.pathname.split("/")[2])
 const cat=location.pathname.split("/")[2]
-const [filter, setFilter] = useState({})
+const [filters, setFilters] = useState({})
 const [sort, setSort] = useState("BestSelling")
 const handleFilters=(e)=>{
 const value=e.target.value;
-setFilter({
-...filter,
+setFilters({
+...filters,
 [e.target.name]:value
 
 
 })
 
 }
-
+console.log(filters)
 
 
   return (
@@ -91,8 +92,8 @@ setFilter({
     <Option value="newest">Newest</Option>
     <Option  value="asc">Price, low to high</Option>
     <Option value="desc">Price, high to low</Option>
-    <Option value="asc2" >Alphabetically, A-Z</Option>
-    <Option value="desc2">Alphabetically, Z-A</Option>
+    <Option  >Alphabetically, A-Z</Option>
+    <Option >Alphabetically, Z-A</Option>
     <Option>Featured</Option>
 
 </Select>
@@ -104,7 +105,7 @@ setFilter({
 
 </FilterContainer>
 
-<Products cat={cat} filter={filter} sort={sort}/>
+<Products cat={cat} filters={filters} sort={sort}/>
 
 
 <LargeWithAppLinksAndSocial/>

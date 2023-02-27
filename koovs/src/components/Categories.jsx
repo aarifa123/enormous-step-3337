@@ -23,7 +23,11 @@ export default function Categories() {
 
 
 {categoriesdata.map(item=>(
+    <>
     <Categoryitem item={item} key={item.id}/>
+   
+    
+    </>
 ))}
 
 

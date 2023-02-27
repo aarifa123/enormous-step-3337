@@ -4,11 +4,13 @@ import LargeWithAppLinksAndSocial from "../components/Footer"
 import styled from 'styled-components'
 import { Add, Remove } from '@material-ui/icons'
 import { fontSize } from '@mui/system'
+import { useSelector } from "react-redux"
+import StripeCheckout from "react-stripe-checkout"
+import { useEffect, useState } from "react";
+import { userRequest } from "../requestMethods";
+import { useHistory } from "react-router";
+const KEY = process.env.REACT_APP_STRIPE;
 const Container=styled.div`
-
-
-
-
 `
 
 const Wrapper=styled.div`
@@ -159,6 +161,32 @@ font-weight:500
 
 
 export default function Cart() {
+const cart =useSelector(state=>state.cart)
+const [stripeToken, setStripeToken] = useState(null);
+// const history = useHistory();
+
+const onToken = (token) => {
+  setStripeToken(token);
+};
+console.log(stripeToken)
+
+
+useEffect(() => {
+    const makeRequest = async () => {
+      try {
+        const res = await userRequest.post("/checkout/payment", {
+          tokenId: stripeToken.id,
+          amount: 500,
+        });
+        // history.push("/success", {
+        //   stripeData: res.data,
+        //   products: cart, });
+      } catch {}
+    };
+    stripeToken && makeRequest();
+  }, [stripeToken, cart.total]);
+
+
   return (
     <div>
 <Container>
@@ -181,57 +209,37 @@ export default function Cart() {
 
 
 <Info>
-    <Product>
+    {cart.products.map(product=>(
+        <Product>
 
 
-       <ProductDetails>
-<Image src="https://images.unsplash.com/photo-1575936123452-b67c3203c357?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8aW1hZ2V8ZW58MHx8MHx8&w=1000&q=80"></Image>
+<ProductDetails>
+<Image src={product.img}></Image>
 <Details>
 
-<ProductName><b>Product:</b>jerssy pant</ProductName>
-<ProductId><b>ID</b> 1234dfref</ProductId>
-<ProductColor color="black"/>
-<ProductSize><b>Size</b> XXl</ProductSize>
+<ProductName><b>Product:</b>{product.title}</ProductName>
+<ProductId><b>ID</b> {product._id}</ProductId>
+<ProductColor color={product.color}/>
+<ProductSize><b>Size</b> {product.size}</ProductSize>
 </Details>
-       </ProductDetails>
-       <Pricedetails>
+</ProductDetails>
+<Pricedetails>
 <Productamountcontainer>
-    <Add/>
-    <ProductAmount>2</ProductAmount>
-    <Remove/>
+<Add/>
+<ProductAmount>{product.quantity}</ProductAmount>
+<Remove/>
 </Productamountcontainer>
-<ProductPrice>
-    Rs.3000
+<ProductPrice>RS.
+{product.price*product.quantity}
 </ProductPrice>
-       </Pricedetails>
-      
-    </Product>
+</Pricedetails>
+
+</Product>
+
+    ))
+    }
     <Hr  />
-    <Product>
-
-
-       <ProductDetails>
-<Image src="https://images.unsplash.com/photo-1575936123452-b67c3203c357?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8aW1hZ2V8ZW58MHx8MHx8&w=1000&q=80"></Image>
-<Details>
-
-<ProductName><b>Product:</b>jerssy pant</ProductName>
-<ProductId><b>ID</b> 1234dfref</ProductId>
-<ProductColor color="black"/>
-<ProductSize><b>Size</b> XXl</ProductSize>
-</Details>
-       </ProductDetails>
-       <Pricedetails>
-<Productamountcontainer>
-    <Add/>
-    <ProductAmount>2</ProductAmount>
-    <Remove/>
-</Productamountcontainer>
-<ProductPrice>
-    Rs.3000
-</ProductPrice>
-       </Pricedetails>
-       
-    </Product>
+    
 
 </Info>
 <Summary>
@@ -239,12 +247,11 @@ export default function Cart() {
 <SummaryItem>
 
     <SummaryItemText>
-subtotal
-
+   
+Subtotal
     </SummaryItemText>
     <SummaryItemPrice>
-Rs.3500
-
+Rs. {cart.total}
     </SummaryItemPrice>
 </SummaryItem>
 <SummaryItem>
@@ -253,8 +260,7 @@ Rs.3500
 Estimated Shipping
 
     </SummaryItemText>
-    <SummaryItemPrice>
-Rs.390
+    <SummaryItemPrice>Rs.390
 
     </SummaryItemPrice>
 </SummaryItem>
@@ -276,16 +282,23 @@ Total
 
     </SummaryItemText>
     <SummaryItemPrice>
-Rs.3500
+   Rs. {cart.total}
 
     </SummaryItemPrice>
 </SummaryItem>
 
-<Button>
-
-    Checkout Now
-</Button>
-
+<StripeCheckout
+              name="koovs"
+              image="https://etimg.etb2bimg.com/thumb/msid-58925166,width-1200,resizemode-4/.jpg"
+              billingAddress
+              shippingAddress
+              description={`Your total is $${cart.total}`}
+              amount={cart.total * 100}
+              token={onToken}
+              stripeKey={KEY}
+            >
+              <Button>CHECKOUT NOW</Button>
+            </StripeCheckout>
 
 </Summary>
     </Bottom>

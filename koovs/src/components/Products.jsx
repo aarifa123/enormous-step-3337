@@ -11,8 +11,8 @@ flex-wrap:wrap;
 justify-content:space-between
 
 `
-export default function Products({cat,filter,sort}) {
-
+export default function Products({cat,filters,sort}) {
+console.log(cat,filters,sort)
 const[products,setProducts]=useState([])
 
 const[filteredProducts,setFilteredProducts]=useState([])
@@ -22,21 +22,22 @@ const[filteredProducts,setFilteredProducts]=useState([])
 useEffect(() => {
   const getProducts=async ()=>{
     try{
-const res=await axios.get(  cat? `http://localhost:5000/api/products?category=${cat}`:"http://localhost:5000/api/products")
+const res=await axios.get(cat? `http://localhost:5000/api/products?category=${cat}`:"http://localhost:5000/api/products")
 setProducts(res.data)
+console.log(res)
     }catch(err){
 
     }
   };
   getProducts()
-  
+ 
 }, [cat])
 
 useEffect(()=>{
 
 cat && setFilteredProducts(
 
-  products.filter(item=>Object.entries(filter).every(([key,value])=>
+  products.filter(item=>Object.entries(filters).every(([key,value])=>
   item[key].includes(value)
   
   ))
@@ -45,7 +46,7 @@ cat && setFilteredProducts(
 
 
 
-},[ products,cat,filter])
+},[ products,cat,filters])
 
 useEffect(() => {
   let sortedProducts = [...filteredProducts]; // create a copy of the filtered products array
@@ -57,13 +58,10 @@ useEffect(() => {
   } else if (sort === "desc") {
     sortedProducts.sort((a, b) => b.price - a.price);
   }
-  else if (sort === "asc2") {
-    sortedProducts.sort((a, b) => a.title - b.title);
-  } else if (sort === "desc2") {
-    sortedProducts.sort((a, b) => b.title - a.title);
-  }
+  
 
-  setFilteredProducts(sortedProducts); // update the state with the sorted array
+  setFilteredProducts(sortedProducts);
+  console.log(sortedProducts) // update the state with the sorted array
 }, [sort]);
 
 

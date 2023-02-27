@@ -21,27 +21,17 @@ res.status(200).json(savedProduct)
 // UPDATE Product
 router.put("/:id", verifyTokenAndAdmin, async (req, res) => {
   try {
-    const updatedProduct = await Product.findByIdAndUpdate(req.params.id);
-    // if (!user) {
-    //   return res.status(404).json({ message: "User not found" });
-    // }
-
-    // // Update the user's fields
-    // user.username = req.body.username || user.username;
-    // user.email = req.body.email || user.email;
-    // user.password = req.body.password || user.password;
-
-    // // Save the updated user to the database
-    // const updatedUser = await user.save();
-
-    // // Remove the password field from the response
-    // const { password, ...userWithoutPassword } = updatedUser._doc;
-
+    const updatedProduct = await Product.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      { new: true }
+    );
     res.status(200).json(updatedProduct);
   } catch (err) {
     res.status(500).json(err);
   }
 });
+
 //DELETE Product
 
 router.delete("/:id",verifyTokenAndAdmin,async(req,res)=>{
@@ -60,20 +50,15 @@ res.status(200).json("Product has been deleted")
 
 //GET Product
 
-router.get("/find/:id",async(req,res)=>{
+router.get("/find/:id", async (req, res) => {
+  try {
+    const product = await Product.findById(req.params.id);
+    res.status(200).json(product);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
 
-
-    try{
-const Product=await Product.findById(req.params.id)
-    
-   
-
-    res.status(200).json(Product);
-  } catch(err){
-        res.status(500).json(err)
-    }
-    
-    })
 
 
     //GET ALL Products

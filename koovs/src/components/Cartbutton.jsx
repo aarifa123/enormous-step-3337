@@ -1,7 +1,15 @@
 import { Badge, Button } from "@chakra-ui/react";
-import { ShoppingCartOutlined } from "@material-ui/icons";
+import { SatelliteSharp, ShoppingCartOutlined } from "@material-ui/icons";
 
 export default function CartButton({ itemCount }) {
+  // const quantity= useSelector((state) => state.cart.quantity);
+
+  // console.log(quantity,"i am quantit")
+  
+  
+  
+  
+  
   return (
     <Button background={"none"}>
       

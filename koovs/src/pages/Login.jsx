@@ -1,8 +1,38 @@
 import { Container, Row, Col, Card, Form, Button } from 'react-bootstrap';
 import { FaFacebookF, FaTwitter, FaGoogle } from 'react-icons/fa';
 import SignUp from './Register';
-function LoginPage() {
+import {useState} from "react"
+import { login } from "../Redux/apiCalls"
+import { useDispatch, useSelector } from "react-redux";
+import styled from 'styled-components';
+import Navbar from "../components/Navbar"
+import LargeWithAppLinksAndSocial from "../components/Footer"
+const Error=styled.span`
+
+color:red
+
+
+`
+
+
+ function LoginPage() {
+
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const dispatch = useDispatch();
+  const {isFetching,error}= useSelector((state) => state.user);
+  // const error = useSelector((state) => state.user.error);
+  const handleClick = (e) => {
+    e.preventDefault();
+    login(dispatch, { username, password });
+  };
+
+
   return (
+    <>
+
+
+    <Navbar/>
     <section className="vh-100 gradient-custom">
       <Container className="py-5 h-100">
         <Row className="d-flex justify-content-center align-items-center h-100">
@@ -16,19 +46,21 @@ function LoginPage() {
                   <p className="text-white-50 mb-5">Please enter your login and password!</p>
 
                   <Form.Group className="mb-4">
-                    <Form.Control type="email" id="typeEmailX" placeholder="Email" className="form-control-lg" />
-                    <Form.Label className="form-label" htmlFor="typeEmailX">Email</Form.Label>
+                    <Form.Control type="text" id="typeEmailX" placeholder="UserName" className="form-control-lg"  onChange={(e) => setUsername(e.target.value)}/>
+                    {/* <input type="text" class="form-control" placeholder="user name" ></input> */}
+                    <Form.Label className="form-label" htmlFor="typeEmailX">UserName</Form.Label>
                   </Form.Group>
 
                   <Form.Group className="mb-4">
-                    <Form.Control type="password" id="typePasswordX" placeholder="Password" className="form-control-lg" />
+                    <Form.Control type="password" id="typePasswordX" placeholder="Password" className="form-control-lg"              onChange={(e) => setPassword(e.target.value)}/>
                     <Form.Label className="form-label" htmlFor="typePasswordX">Password</Form.Label>
                   </Form.Group>
 
                   <p className="small mb-5 pb-lg-2"><a className="text-white-50" href="#!">Forgot password?</a></p>
 
-                  <Button variant="outline-light" className="btn-lg px-5" type="submit">Login</Button>
+                  <Button variant="outline-light" className="btn-lg px-5" type="submit" onClick={handleClick}  disabled={isFetching}>Login</Button><br />
 
+                  {error && <Error>Something went wrong...</Error>}
                   <div className="d-flex justify-content-center text-center mt-4 pt-1">
                     <a href="#!" className="text-white"><FaFacebookF className="fa-lg" /></a>
                     <a href="#!" className="text-white"><FaTwitter className="fa-lg mx-4 px-2" /></a>
@@ -48,6 +80,10 @@ function LoginPage() {
         </Row>
       </Container>
     </section>
+    <br />
+    <br /><br /><br />
+    <LargeWithAppLinksAndSocial/>
+    </>
   );
 }
 
